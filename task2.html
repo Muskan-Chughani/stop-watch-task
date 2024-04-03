@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-color: rgb(208, 184, 245);
+}
+
+.stopwatch {
+  text-align: center;
+}
+
+
+
+button {
+  margin-top: 10px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+#display {
+  font-size: 24px;
+}
+.position {
+    justify-content: center;
+}
+</style>
+<body>
+    <div class="stopwatch">
+        <div class="position">
+            <img src="C:\Users\Noman Traders\Desktop/ha.jpg" width="20%" height="20%">
+        </div>
+        <h1>Stopwatch</h1>
+        <p id="display">00:00:00</p>
+        <button id="startStopButton" onclick="startStop()">Start</button>
+        <button onclick="reset()">Reset</button>
+        <button onclick="recordLap()">Lap</button>
+        <ul id="lapTimes"></ul>
+        
+    
+  </div>
+
+
+  <script>
+    let timer;
+let isRunning = false;
+let seconds = 0;
+let minutes = 0;
+let hours = 0;
+let lapCounter = 1;
+
+function startStop() {
+  if (isRunning) {
+    clearInterval(timer);
+    document.getElementById("startStopButton").textContent = "Start";
+  } else {
+    timer = setInterval(updateDisplay, 1000);
+    document.getElementById("startStopButton").textContent = "Stop";
+  }
+  isRunning = !isRunning;
+}
+
+function updateDisplay() {
+  seconds++;
+  if (seconds === 60) {
+    seconds = 0;
+    minutes++;
+  }
+  if (minutes === 60) {
+    minutes = 0;
+    hours++;
+  }
+
+  const display = document.getElementById("display");
+  display.textContent = formatTime(hours) + ":" + formatTime(minutes) + ":" + formatTime(seconds);
+}
+
+function formatTime(time) {
+  return time < 10 ? "0" + time : time;
+}
+
+function reset() {
+  clearInterval(timer);
+  isRunning = false;
+  seconds = 0;
+  minutes = 0;
+  hours = 0;
+  lapCounter = 1;
+  document.getElementById("display").textContent = "00:00:00";
+  document.getElementById("startStopButton").textContent = "Start";
+  document.getElementById("lapTimes").innerHTML = "";
+}
+
+function recordLap() {
+  const lapTimesList = document.getElementById("lapTimes");
+  const lapTimeItem = document.createElement("li");
+  lapTimeItem.textContent = "Lap " + lapCounter + ": " + document.getElementById("display").textContent;
+  lapTimesList.appendChild(lapTimeItem);
+  lapCounter++;
+}
+
+  </script>  
+</body>
+</html>
